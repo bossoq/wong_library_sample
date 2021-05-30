@@ -1,3 +1,5 @@
+import os
+
 from loader import load_db
 from model import Book
 from render import render_table
@@ -19,14 +21,17 @@ def main():
         if menu_select == '1':
             author_name = input('Please type author name: ')
             result: list[Book] = repository.find_by_author(author_name)
+            screen_clear()
             print('Searching for book(s) with author name "'+author_name+'"')
         elif menu_select == '2':
             length = int(input('Please type length of book: '))
             result: list[Book] = repository.find_by_hardest(length)
+            screen_clear()
             print('Searching for book(s) with length more than '+str(length)+' page(s)')
         elif menu_select == '3':
             year = int(input('Please type number of year: '))
             result: list[Book] = repository.find_by_recent(year)
+            screen_clear()
             print('Searching for book(s) published in last '+str(year)+' year(s)')
         elif menu_select == 'q':
             print('Good bye Dr.Strange')
@@ -34,9 +39,18 @@ def main():
         if result:
             render_table(result)
             input('Press Enter to continue...')
+            screen_clear()
         else:
             print('Please try again...')
+            screen_clear()
     pass
+
+
+def screen_clear():
+    if os.name == 'posix':
+        _ = os.system('clear')
+    else:
+        _ = os.system('cls')
 
 
 if __name__ == '__main__':
